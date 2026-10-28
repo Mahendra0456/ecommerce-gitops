@@ -1,6 +1,6 @@
 image:
   repository: mahendra46/ecommerce
-  tag: 4
+  tag: 5
 
 # starting replica count (the HPA takes over afterwards)
 replicaCount: 4
