@@ -10,7 +10,7 @@ replicaCount: 4
 failRate: "0.5"
 
 mongo:
-  replicas: 1
+  replicas: 0
 
 hpa:
   minReplicas: 4
