@@ -7,7 +7,7 @@ replicaCount: 4
 
 # Share of /api requests that fail on purpose. "0" is normal.
 # The bad-release demo sets this to "0.5".
-failRate: "0"
+failRate: "0.5"
 
 mongo:
   replicas: 1
