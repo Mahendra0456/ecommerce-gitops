@@ -1,0 +1,35 @@
+# Needs the kube-prometheus-stack release to be named "monitoring" (label release: monitoring).
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ecommerce
+  namespace: ecommerce
+  labels:
+    release: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: ecommerce
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 15s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: ecommerce-alerts
+  namespace: ecommerce
+  labels:
+    release: monitoring
+spec:
+  groups:
+    - name: ecommerce
+      rules:
+        - alert: HighErrorRate
+          expr: sum(rate(http_requests_total{namespace="ecommerce",status=~"5.."}[1m])) / sum(rate(http_requests_total{namespace="ecommerce"}[1m])) > 0.05
+          for: 30s
+          labels:
+            severity: critical
+          annotations:
+            summary: "More than 5% of ecommerce requests are failing"

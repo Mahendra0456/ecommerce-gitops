@@ -1,0 +1,19 @@
+# Canary gate: the release is promoted only while the 5xx share stays under the threshold.
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: error-rate
+  namespace: ecommerce
+spec:
+  metrics:
+    - name: error-rate
+      initialDelay: 30s
+      interval: 30s
+      count: 4
+      failureLimit: 1
+      successCondition: 'len(result) == 0 || isNaN(result[0]) || result[0] < {{ .Values.analysis.errorRateThreshold }}'
+      provider:
+        prometheus:
+          address: {{ .Values.analysis.prometheusAddress }}
+          query: |
+            sum(rate(http_requests_total{namespace="ecommerce",status=~"5.."}[1m])) / sum(rate(http_requests_total{namespace="ecommerce"}[1m]))

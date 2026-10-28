@@ -1,0 +1,23 @@
+image:
+  repository: mahendra46/ecommerce
+  tag: bootstrap
+
+# starting replica count (the HPA takes over afterwards)
+replicaCount: 4
+
+# Share of /api requests that fail on purpose. "0" is normal.
+# The bad-release demo sets this to "0.5".
+failRate: "0"
+
+mongo:
+  replicas: 1
+
+hpa:
+  minReplicas: 4
+  maxReplicas: 6
+  cpuTarget: 50
+
+analysis:
+  # a canary fails when more than this share of requests return 5xx
+  errorRateThreshold: 0.05
+  prometheusAddress: http://monitoring-kube-prometheus-prometheus.monitoring.svc:9090

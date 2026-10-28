@@ -1,0 +1,13 @@
+*.swp
+
+# Secrets and local configuration
+.env
+.env.*
+*.pem
+*.key
+secrets.yaml
+secrets.yml
+
+# Generated files
+*.log
+*.swp

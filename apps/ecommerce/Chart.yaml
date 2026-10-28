@@ -1,0 +1,6 @@
+apiVersion: v2
+name: ecommerce
+description: ShopKart e-commerce app with canary rollout, autoscaling and monitoring
+type: application
+version: 0.1.0
+appVersion: "1.0"
